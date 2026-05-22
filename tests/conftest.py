@@ -191,8 +191,8 @@ class FakeSpiral:
 @pytest.fixture
 def fake_spiral(monkeypatch):
     fake = FakeSpiral()
-    monkeypatch.setattr("spiraldb_nemo_curator.io.reader.Spiral", lambda: fake, raising=False)
-    monkeypatch.setattr("spiraldb_nemo_curator.io.writer.Spiral", lambda: fake, raising=False)
+    monkeypatch.setattr("spiraldb_nemo_curator.io.video.reader.Spiral", lambda: fake, raising=False)
+    monkeypatch.setattr("spiraldb_nemo_curator.io.video.writer.Spiral", lambda: fake, raising=False)
     # Spiral is imported lazily inside setup(); patch the module attribute that the
     # `from spiral import Spiral` statement will resolve.
     import spiral

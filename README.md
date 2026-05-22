@@ -47,7 +47,7 @@ from nemo_curator.stages.video.clipping.clip_transcoding_stages import (
 )
 from nemo_curator.stages.video.clipping.frame_extraction import FrameExtractionStage
 
-from spiraldb_nemo_curator import SpiralClipWriter, SpiralVideoReader
+from spiraldb_nemo_curator.io.video import SpiralClipWriter, SpiralVideoReader
 
 project = os.environ["SPIRAL_PROJECT"]
 

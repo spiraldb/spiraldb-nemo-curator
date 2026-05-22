@@ -1,15 +1,6 @@
-from spiraldb_nemo_curator.io.reader import (
-    SpiralPartitionStage,
-    SpiralRowTask,
-    SpiralVideoReader,
-    SpiralVideoReaderStage,
-)
-from spiraldb_nemo_curator.io.writer import SpiralClipWriter
+"""SpiralDB-backed I/O endpoints for NeMo Curator pipelines.
 
-__all__ = [
-    "SpiralClipWriter",
-    "SpiralPartitionStage",
-    "SpiralRowTask",
-    "SpiralVideoReader",
-    "SpiralVideoReaderStage",
-]
+Stages are organized by modality. Today only :mod:`.video` is available;
+image and audio endpoints will land in sibling subpackages as Curator's
+support for those modalities matures.
+"""
