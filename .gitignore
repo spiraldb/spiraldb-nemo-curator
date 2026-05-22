@@ -1,0 +1,67 @@
+# Python bytecode / build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+build/
+dist/
+wheels/
+.eggs/
+
+# Virtual envs
+.venv/
+venv/
+env/
+.python-version-local
+
+# uv / pip
+.uv-cache/
+pip-wheel-metadata/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.cache/
+
+# Type checkers
+.mypy_cache/
+.pyright/
+.pytype/
+.ruff_cache/
+.ty_cache/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local Spiral / project credentials and scratch
+.spiral/
+.spiral.toml
+*.local.toml
+.env
+.env.*
+!.env.example
+
+# Scratch / fixtures (large video files should not be committed)
+scratch/
+tmp/
+*.mp4
+*.mkv
+*.mov
+*.webm
+*.avi
+*.webp

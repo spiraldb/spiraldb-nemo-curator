@@ -1,12 +1,10 @@
-"""SpiralDB-backed I/O endpoints for NeMo Curator video pipelines."""
-
-from spiraldb_nemo_curator.io import (
-    SpiralClipWriter,
+from spiraldb_nemo_curator.io.reader import (
     SpiralPartitionStage,
     SpiralRowTask,
     SpiralVideoReader,
     SpiralVideoReaderStage,
 )
+from spiraldb_nemo_curator.io.writer import SpiralClipWriter
 
 __all__ = [
     "SpiralClipWriter",
