@@ -41,7 +41,7 @@ from nemo_curator.stages.video.embedding.cosmos_embed1_stages import (
 from nemo_curator.stages.video.filtering.motion_filter import MotionFilterStage
 from nemo_curator.stages.video.preview.preview import PreviewStage
 
-from spiraldb_nemo_curator import SpiralClipWriter, SpiralVideoReader
+from spiraldb_nemo_curator.io.video import SpiralClipWriter, SpiralVideoReader
 
 
 def build_pipeline() -> Pipeline:

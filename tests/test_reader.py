@@ -1,4 +1,4 @@
-"""Unit tests for :mod:`spiraldb_nemo_curator.io.reader`.
+"""Unit tests for :mod:`spiraldb_nemo_curator.io.video.reader`.
 
 These tests stub out the Spiral client so they exercise the dataclass plumbing,
 identifier resolution, and the population of Video metadata without needing a
@@ -18,14 +18,14 @@ def _key_table(rows: list[dict[str, object]], schema: pa.Schema) -> pa.Table:
 
 
 def test_resolve_source_id_explicit_column():
-    from spiraldb_nemo_curator.io.reader import _resolve_source_id
+    from spiraldb_nemo_curator.io.video.reader import _resolve_source_id
 
     key_row = {"clip_id": "abc", "shard": 3}
     assert _resolve_source_id(key_row, ["clip_id", "shard"], source_id_column="clip_id") == "abc"
 
 
 def test_resolve_source_id_compound_key():
-    from spiraldb_nemo_curator.io.reader import _resolve_source_id
+    from spiraldb_nemo_curator.io.video.reader import _resolve_source_id
 
     key_row = {"shard": 3, "clip_id": "abc"}
     # Order matches the key_columns argument, not the dict.
@@ -35,7 +35,7 @@ def test_resolve_source_id_compound_key():
 def test_partition_stage_emits_one_task_per_row(fake_spiral):
     from nemo_curator.tasks import _EmptyTask
 
-    from spiraldb_nemo_curator.io.reader import SpiralPartitionStage, SpiralRowTask
+    from spiraldb_nemo_curator.io.video.reader import SpiralPartitionStage, SpiralRowTask
 
     schema = pa.schema({"clip_id": pa.string()})
     table = _key_table([{"clip_id": "row-1"}, {"clip_id": "row-2"}, {"clip_id": "row-3"}], schema)
@@ -58,7 +58,7 @@ def test_partition_stage_emits_one_task_per_row(fake_spiral):
 
 
 def test_partition_stage_rejects_non_key_source_column(fake_spiral):
-    from spiraldb_nemo_curator.io.reader import SpiralPartitionStage
+    from spiraldb_nemo_curator.io.video.reader import SpiralPartitionStage
 
     project = fake_spiral.project("proj")
     project.create_table("clips", key_schema=pa.schema({"clip_id": pa.string()}), exist_ok=True)
@@ -75,7 +75,7 @@ def test_partition_stage_rejects_non_key_source_column(fake_spiral):
 def test_partition_stage_compound_key_default_join(fake_spiral):
     from nemo_curator.tasks import _EmptyTask
 
-    from spiraldb_nemo_curator.io.reader import SpiralPartitionStage
+    from spiraldb_nemo_curator.io.video.reader import SpiralPartitionStage
 
     schema = pa.schema({"shard": pa.int32(), "clip_id": pa.string()})
     table = _key_table(
@@ -107,7 +107,7 @@ def _stub_where(stage):
 def test_video_reader_stage_populates_video(fake_spiral, monkeypatch):
     from nemo_curator.tasks.video import VideoMetadata
 
-    from spiraldb_nemo_curator.io.reader import (
+    from spiraldb_nemo_curator.io.video.reader import (
         SpiralRowTask,
         SpiralVideoReaderStage,
     )
@@ -157,7 +157,7 @@ def test_video_reader_stage_populates_video(fake_spiral, monkeypatch):
 
 
 def test_video_reader_stage_records_metadata_error(fake_spiral, monkeypatch):
-    from spiraldb_nemo_curator.io.reader import (
+    from spiraldb_nemo_curator.io.video.reader import (
         SpiralRowTask,
         SpiralVideoReaderStage,
     )
@@ -189,7 +189,7 @@ def test_video_reader_stage_records_metadata_error(fake_spiral, monkeypatch):
 
 
 def test_video_reader_stage_raises_on_missing_row(fake_spiral):
-    from spiraldb_nemo_curator.io.reader import (
+    from spiraldb_nemo_curator.io.video.reader import (
         SpiralRowTask,
         SpiralVideoReaderStage,
     )
@@ -212,7 +212,7 @@ def test_video_reader_stage_raises_on_missing_row(fake_spiral):
 
 
 def test_composite_reader_decompose_shape():
-    from spiraldb_nemo_curator.io.reader import (
+    from spiraldb_nemo_curator.io.video.reader import (
         SpiralPartitionStage,
         SpiralVideoReader,
         SpiralVideoReaderStage,
