@@ -16,8 +16,12 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "av>=17.0.1",
+    "opencv-python>=4.10",
     "pytest>=8.0",
     "pytest-mock>=3.12",
+    "ruff>=0.8",
+    "ty>=0.0.1a1",
 ]
 
 [build-system]
@@ -26,3 +30,46 @@ build-backend = "uv_build"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = [".venv", "examples"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "N",    # pep8-naming
+    "SIM",  # flake8-simplify
+    "PIE",  # flake8-pie
+    "PTH",  # flake8-use-pathlib
+    "RET",  # flake8-return
+    "RUF",  # ruff-specific
+    "ARG",  # flake8-unused-arguments
+    "BLE",  # flake8-blind-except
+    "TCH",  # flake8-type-checking
+]
+ignore = [
+    "E501",  # line-too-long handled by formatter
+    "N818",  # exception naming — too noisy for domain exceptions
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "N802",  # test helpers use snake_case freely
+    "ARG001",  # pytest fixture args
+    "ARG002",  # pytest fixture args
+]
+
+[tool.ty.rules]
+# ty defaults are reasonable; pin the few we care about explicitly.
+unresolved-import = "warn"
+
+[tool.ty.src]
+include = ["src"]

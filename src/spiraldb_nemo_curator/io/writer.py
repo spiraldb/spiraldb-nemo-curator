@@ -6,15 +6,17 @@ and ``video.filtered_clips`` in a single ``tbl.write()`` (implicit transaction).
 
 from __future__ import annotations
 
-from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pyarrow as pa
 from loguru import logger
 from nemo_curator.stages.base import ProcessingStage
 from nemo_curator.stages.resources import Resources
 from nemo_curator.tasks.video import Clip, Video, VideoMetadata, VideoTask
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 OUTPUT_KEY_SCHEMA = pa.schema(
     [
@@ -158,9 +160,7 @@ class SpiralClipWriter(ProcessingStage[VideoTask, VideoTask]):
             return None
 
         meta: VideoMetadata = video.metadata
-        windows_type = _windows_struct_type(
-            self.caption_models, self.enhanced_caption_models
-        )
+        windows_type = _windows_struct_type(self.caption_models, self.enhanced_caption_models)
         errors_type = _errors_struct_type()
 
         source_video: list[str] = []
@@ -206,9 +206,7 @@ class SpiralClipWriter(ProcessingStage[VideoTask, VideoTask]):
             errors_col.append(_errors_to_list(clip.errors))
             windows_col.append(
                 [
-                    _window_to_dict(
-                        w, self.caption_models, self.enhanced_caption_models
-                    )
+                    _window_to_dict(w, self.caption_models, self.enhanced_caption_models)
                     for w in clip.windows
                 ]
             )
@@ -238,33 +236,15 @@ class SpiralClipWriter(ProcessingStage[VideoTask, VideoTask]):
             "motion_score_per_patch_min_256": pa.array(motion_per_patch, type=pa.float32()),
             "errors": pa.array(errors_col, type=pa.list_(errors_type)),
             "windows": pa.array(windows_col, type=pa.list_(windows_type)),
-            "source_width": pa.array(
-                [meta.width] * len(pairs), type=pa.int32()
-            ),
-            "source_height": pa.array(
-                [meta.height] * len(pairs), type=pa.int32()
-            ),
-            "source_framerate": pa.array(
-                [meta.framerate] * len(pairs), type=pa.float32()
-            ),
-            "source_num_frames": pa.array(
-                [meta.num_frames] * len(pairs), type=pa.int64()
-            ),
-            "source_duration": pa.array(
-                [meta.duration] * len(pairs), type=pa.float64()
-            ),
-            "source_video_codec": pa.array(
-                [meta.video_codec] * len(pairs), type=pa.string()
-            ),
-            "source_pixel_format": pa.array(
-                [meta.pixel_format] * len(pairs), type=pa.string()
-            ),
-            "source_audio_codec": pa.array(
-                [meta.audio_codec] * len(pairs), type=pa.string()
-            ),
-            "source_bit_rate_k": pa.array(
-                [meta.bit_rate_k] * len(pairs), type=pa.int32()
-            ),
+            "source_width": pa.array([meta.width] * len(pairs), type=pa.int32()),
+            "source_height": pa.array([meta.height] * len(pairs), type=pa.int32()),
+            "source_framerate": pa.array([meta.framerate] * len(pairs), type=pa.float32()),
+            "source_num_frames": pa.array([meta.num_frames] * len(pairs), type=pa.int64()),
+            "source_duration": pa.array([meta.duration] * len(pairs), type=pa.float64()),
+            "source_video_codec": pa.array([meta.video_codec] * len(pairs), type=pa.string()),
+            "source_pixel_format": pa.array([meta.pixel_format] * len(pairs), type=pa.string()),
+            "source_audio_codec": pa.array([meta.audio_codec] * len(pairs), type=pa.string()),
+            "source_bit_rate_k": pa.array([meta.bit_rate_k] * len(pairs), type=pa.int32()),
             "clip": [
                 se.Blob(b, mime_type="video/mp4") if b is not None else se.Blob(b"")
                 for b in clip_buffers
@@ -300,9 +280,7 @@ class SpiralClipWriter(ProcessingStage[VideoTask, VideoTask]):
         batch = self._build_batch(video)
         if batch is None:
             if self.verbose:
-                logger.info(
-                    f"SpiralClipWriter: no clips for {video.input_path}, skipping write"
-                )
+                logger.info(f"SpiralClipWriter: no clips for {video.input_path}, skipping write")
             self._release_clip_memory(video)
             return task
 

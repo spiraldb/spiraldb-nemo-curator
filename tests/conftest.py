@@ -140,7 +140,7 @@ class _FakeTable:
     def __getitem__(self, item: str) -> str:  # tracked for filter construction
         return f"col:{item}"
 
-    def write(self, batch: Any, **kwargs: Any) -> None:  # noqa: ARG002
+    def write(self, batch: Any, **kwargs: Any) -> None:
         self.writes.append(batch)
 
 
@@ -159,10 +159,11 @@ class _FakeProject:
     def table(self, identifier: str) -> _FakeTable:
         return self.tables[identifier]
 
-    def create_table(self, identifier: str, *, key_schema: Any, exist_ok: bool = False) -> _FakeTable:  # noqa: ARG002
+    def create_table(
+        self, identifier: str, *, key_schema: Any, exist_ok: bool = False
+    ) -> _FakeTable:
         names = list(key_schema.names) if hasattr(key_schema, "names") else list(key_schema.keys())
-        tbl = self.tables.setdefault(identifier, _FakeTable(identifier, names))
-        return tbl
+        return self.tables.setdefault(identifier, _FakeTable(identifier, names))
 
 
 class FakeSpiral:
@@ -176,12 +177,12 @@ class FakeSpiral:
     def project(self, project_id: str) -> _FakeProject:
         return self.projects.setdefault(project_id, _FakeProject())
 
-    def scan(self, *args: Any, **kwargs: Any) -> _FakeScan:  # noqa: ARG002
+    def scan(self, *args: Any, **kwargs: Any) -> _FakeScan:
         if not self.scan_responses:
             raise AssertionError("FakeSpiral.scan called with no queued response")
         return _FakeScan(self.scan_responses.pop(0))
 
-    def scan_keys(self, *args: Any, **kwargs: Any) -> _FakeScan:  # noqa: ARG002
+    def scan_keys(self, *args: Any, **kwargs: Any) -> _FakeScan:
         if not self.scan_keys_responses:
             raise AssertionError("FakeSpiral.scan_keys called with no queued response")
         return _FakeScan(self.scan_keys_responses.pop(0))

@@ -34,8 +34,9 @@ def test_embedding_dim_returns_none_when_all_missing(fake_video_clip_factory):
 
 
 def test_window_to_dict_only_includes_configured_caption_models():
-    from spiraldb_nemo_curator.io.writer import _window_to_dict
     from nemo_curator.tasks.video import _Window
+
+    from spiraldb_nemo_curator.io.writer import _window_to_dict
 
     w = _Window(start_frame=10, end_frame=60)
     w.caption.update({"qwen": "a cat", "internvl": "an animal"})
@@ -50,8 +51,9 @@ def test_window_to_dict_only_includes_configured_caption_models():
 
 
 def test_window_to_dict_omits_caption_fields_when_no_models():
-    from spiraldb_nemo_curator.io.writer import _window_to_dict
     from nemo_curator.tasks.video import _Window
+
+    from spiraldb_nemo_curator.io.writer import _window_to_dict
 
     w = _Window(start_frame=10, end_frame=60)
     out = _window_to_dict(w, caption_models=[], enhanced_caption_models=[])
@@ -104,8 +106,9 @@ def test_writer_build_batch_has_expected_shape(fake_spiral, fake_blob, fake_vide
 def test_writer_build_batch_skips_embedding_when_all_null(
     fake_spiral, fake_blob, fake_video_clip_factory
 ):
-    from nemo_curator.tasks.video import Video, VideoMetadata
     from pathlib import Path
+
+    from nemo_curator.tasks.video import Video, VideoMetadata
 
     from spiraldb_nemo_curator.io.writer import SpiralClipWriter
 
@@ -146,9 +149,7 @@ def test_writer_process_writes_one_batch(fake_spiral, fake_blob, fake_video_task
 def test_writer_process_dry_run_does_not_write(fake_spiral, fake_blob, fake_video_task):
     from spiraldb_nemo_curator.io.writer import SpiralClipWriter
 
-    writer = SpiralClipWriter(
-        project_id="proj", table_name="clips", dry_run=True
-    )
+    writer = SpiralClipWriter(project_id="proj", table_name="clips", dry_run=True)
     writer.setup()
     writer.process(fake_video_task)
 
@@ -160,6 +161,7 @@ def test_writer_process_empty_video_is_noop(fake_spiral, fake_blob):
     from pathlib import Path
 
     from nemo_curator.tasks.video import Video, VideoTask
+
     from spiraldb_nemo_curator.io.writer import SpiralClipWriter
 
     video = Video(input_video=Path("row-empty"))
@@ -173,7 +175,7 @@ def test_writer_process_empty_video_is_noop(fake_spiral, fake_blob):
 
 
 def test_writer_creates_table_with_expected_key_schema(fake_spiral, fake_blob):
-    from spiraldb_nemo_curator.io.writer import SpiralClipWriter, OUTPUT_KEY_SCHEMA
+    from spiraldb_nemo_curator.io.writer import OUTPUT_KEY_SCHEMA, SpiralClipWriter
 
     writer = SpiralClipWriter(project_id="proj", table_name="clips")
     writer.setup()

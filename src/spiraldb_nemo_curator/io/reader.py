@@ -15,7 +15,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-import pyarrow as pa
 from loguru import logger
 from nemo_curator.stages.base import CompositeStage, ProcessingStage
 from nemo_curator.stages.resources import Resources
@@ -23,7 +22,8 @@ from nemo_curator.tasks import Task, _EmptyTask
 from nemo_curator.tasks.video import Video, VideoTask
 
 if TYPE_CHECKING:
-    from spiral import Project, Spiral, Table
+    import pyarrow as pa
+    from spiral import Spiral
     from spiral.expressions import ExprLike
 
 
@@ -74,7 +74,7 @@ class SpiralPartitionStage(ProcessingStage[_EmptyTask, SpiralRowTask]):
     project_id: str
     table_name: str
     source_id_column: str | None = None
-    where: "ExprLike | None" = None
+    where: ExprLike | None = None
     limit: int | None = None
     verbose: bool = False
     name: str = "spiral_partition"
@@ -105,7 +105,7 @@ class SpiralPartitionStage(ProcessingStage[_EmptyTask, SpiralRowTask]):
             )
             raise ValueError(msg)
 
-    def process(self, _: _EmptyTask) -> list[SpiralRowTask]:
+    def process(self, task: _EmptyTask) -> list[SpiralRowTask]:  # noqa: ARG002
         scan = self._spiral.scan_keys(
             self._table,
             where=self.where,
@@ -210,8 +210,7 @@ class SpiralVideoReaderStage(ProcessingStage[SpiralRowTask, VideoTask]):
             video.populate_metadata()
         except Exception as e:  # noqa: BLE001
             logger.warning(
-                f"SpiralVideoReaderStage: failed to extract metadata for "
-                f"{task.source_id}: {e}"
+                f"SpiralVideoReaderStage: failed to extract metadata for {task.source_id}: {e}"
             )
             video.errors["metadata"] = str(e)
 
@@ -258,7 +257,7 @@ class SpiralVideoReader(CompositeStage[_EmptyTask, VideoTask]):
     table_name: str
     video_column: str = "video"
     source_id_column: str | None = None
-    where: "ExprLike | None" = None
+    where: ExprLike | None = None
     limit: int | None = None
     verbose: bool = False
 
