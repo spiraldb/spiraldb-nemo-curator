@@ -21,10 +21,7 @@ def test_resolve_source_id_explicit_column():
     from spiraldb_nemo_curator.io.reader import _resolve_source_id
 
     key_row = {"clip_id": "abc", "shard": 3}
-    assert (
-        _resolve_source_id(key_row, ["clip_id", "shard"], source_id_column="clip_id")
-        == "abc"
-    )
+    assert _resolve_source_id(key_row, ["clip_id", "shard"], source_id_column="clip_id") == "abc"
 
 
 def test_resolve_source_id_compound_key():
@@ -32,10 +29,7 @@ def test_resolve_source_id_compound_key():
 
     key_row = {"shard": 3, "clip_id": "abc"}
     # Order matches the key_columns argument, not the dict.
-    assert (
-        _resolve_source_id(key_row, ["shard", "clip_id"], source_id_column=None)
-        == "3/abc"
-    )
+    assert _resolve_source_id(key_row, ["shard", "clip_id"], source_id_column=None) == "3/abc"
 
 
 def test_partition_stage_emits_one_task_per_row(fake_spiral):
@@ -44,9 +38,7 @@ def test_partition_stage_emits_one_task_per_row(fake_spiral):
     from spiraldb_nemo_curator.io.reader import SpiralPartitionStage, SpiralRowTask
 
     schema = pa.schema({"clip_id": pa.string()})
-    table = _key_table(
-        [{"clip_id": "row-1"}, {"clip_id": "row-2"}, {"clip_id": "row-3"}], schema
-    )
+    table = _key_table([{"clip_id": "row-1"}, {"clip_id": "row-2"}, {"clip_id": "row-3"}], schema)
     project = fake_spiral.project("proj")
     # Register a fake source table with key schema ["clip_id"].
     project.create_table("clips", key_schema=pa.schema({"clip_id": pa.string()}), exist_ok=True)
