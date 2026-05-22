@@ -4,8 +4,15 @@
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 SpiralDB-backed I/O endpoints for [NVIDIA NeMo Curator][nemo] video pipelines.
-Drop in `SpiralVideoReader` and `SpiralClipWriter` in place of Curator's
-file-based reader/writer and your raw MP4s, per-clip MP4s, previews, captions,
+This library provides two drop-in replacements for Curator's file-based I/O
+stages:
+
+| this library         | replaces                                                                                                                                            | role                                            |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| `SpiralVideoReader`  | [`VideoReader`](https://docs.nvidia.com/nemo/curator/nemo-curator/nemo_curator/stages/video/io/video_reader#nemo_curator-stages-video-io-video_reader-VideoReader)        | reads source MP4s into `VideoTask`s             |
+| `SpiralClipWriter`   | [`ClipWriterStage`](https://docs.nvidia.com/nemo/curator/latest/nemo-curator/nemo_curator/stages/video/io/clip_writer#nemo_curator-stages-video-io-clip_writer-ClipWriterStage) | writes per-clip outputs at the end of the pipeline |
+
+Swap those two stages in and your raw MP4s, per-clip MP4s, previews, captions,
 and embeddings all live in a single SpiralDB table — no S3 prefixes to babysit,
 no JSON sidecar files, no Parquet shards to compact.
 
@@ -98,12 +105,16 @@ flowchart LR
     W --> Dst
 ```
 
-`SpiralVideoReader` is a `CompositeStage` that decomposes into a cheap
-keys-only scan (one task per source row) followed by a keyed point-scan that
-materializes the blob payload — so workers fan out over rows without
-serializing the source table across the cluster. `SpiralClipWriter` writes
-both `video.clips` and `video.filtered_clips` in a single batched
+`SpiralVideoReader` is a [`CompositeStage`][composite-stage] that decomposes
+into two [`ProcessingStage`s][processing-stage]: a cheap keys-only scan (one
+task per source row) followed by a keyed point-scan that materializes the blob
+payload — so workers fan out over rows without serializing the source table
+across the cluster. `SpiralClipWriter` is a single `ProcessingStage` that
+writes both `video.clips` and `video.filtered_clips` in one batched
 `tbl.write()`, with each `se.Blob` column landing in its own column group.
+
+[composite-stage]: https://docs.nvidia.com/nemo/curator/latest/nemo-curator/nemo_curator/stages/base#nemo_curator-stages-base-CompositeStage
+[processing-stage]: https://docs.nvidia.com/nemo/curator/latest/nemo-curator/nemo_curator/stages/base#nemo_curator-stages-base-ProcessingStage
 
 ## Contact
 
