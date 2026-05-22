@@ -1,5 +1,8 @@
 # spiraldb-nemo-curator
 
+[![CI](https://github.com/spiraldb/spiraldb-nemo-curator/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/spiraldb/spiraldb-nemo-curator/actions/workflows/ci.yml?query=branch%3Adevelop)
+[![License: Apache 2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
 SpiralDB-backed I/O endpoints for [NVIDIA NeMo Curator][nemo] video pipelines.
 Drop in `SpiralVideoReader` and `SpiralClipWriter` in place of Curator's
 file-based reader/writer and your raw MP4s, per-clip MP4s, previews, captions,
