@@ -120,7 +120,7 @@ writes both `video.clips` and `video.filtered_clips` in one batched
 ## Contact
 
 Questions, design feedback, or want help wiring this into your pipeline?
-Email [hello@spiraldb.com](mailto:hello@spiraldb.com?subject=NeMo%20Curator)
+Email [nemo-curator@spiraldb.com](mailto:nemo-curator@spiraldb.com?subject=NeMo%20Curator)
 and mention **NeMo Curator** in the subject line.
 
 [nemo]: https://github.com/NVIDIA/NeMo-Curator
