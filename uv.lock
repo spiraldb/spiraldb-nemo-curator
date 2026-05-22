@@ -2136,7 +2136,7 @@ wheels = [
 
 [[package]]
 name = "pyspiral"
-version = "0.13.9"
+version = "0.14.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "betterproto2" },
@@ -2154,9 +2154,9 @@ dependencies = [
     { name = "zstandard" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/96/b5/7456cc5e60dbaa9c1389b459c668f9a3ed2ce84a972171db13fcc6e1d264/pyspiral-0.13.9-cp311-abi3-macosx_11_0_arm64.whl", hash = "sha256:cab78b1f9b5429aa80f378ece19bb5d9345e67375d662df99351f6d60edb8ec5", size = 28916084, upload-time = "2026-05-19T10:00:05.036Z" },
-    { url = "https://files.pythonhosted.org/packages/fe/a5/4050df027b1ecbc96fb7e4f7798838c031a86acf4afe039abc62c2ce1463/pyspiral-0.13.9-cp311-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:151d2b0bc2567d74238363d52de0bbbcabc3e12c60fa510b0c4659cd233dda7e", size = 34581997, upload-time = "2026-05-19T09:59:58.194Z" },
-    { url = "https://files.pythonhosted.org/packages/78/1d/5e5cb0bcf947dfd8dba221dbfa8e8f5542cd7a061d325d9e2eb9352b5fb1/pyspiral-0.13.9-cp311-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:b526f92759428e13dac1aa200e06d84fe9dd56778adc950294e502d13d62b282", size = 32234635, upload-time = "2026-05-19T10:00:02.145Z" },
+    { url = "https://files.pythonhosted.org/packages/33/81/ae29f2a11573e0e6a8e4ac6b0cc0fc475041a2e8e284b5ec12b225ac032d/pyspiral-0.14.0-cp311-abi3-macosx_11_0_arm64.whl", hash = "sha256:f6994e46d68367a05a0d4ba2fcca6af7895ed0a4531cf0c6292094c16e8817fd", size = 29366584, upload-time = "2026-05-21T09:23:59.524Z" },
+    { url = "https://files.pythonhosted.org/packages/8c/78/e68e15f8545c736d467d62c184e3c64adec8351c7ec37d016b0775c1354c/pyspiral-0.14.0-cp311-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:faa234f5bd2f70d268960511a46841b59a74958066318ba0d588d62553f3fc31", size = 35111766, upload-time = "2026-05-21T09:23:52.063Z" },
+    { url = "https://files.pythonhosted.org/packages/32/37/d68e6e555d587f416da97f62318752f5ac69969e49a8dcf4179b712ae026/pyspiral-0.14.0-cp311-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:fbbba3760caa19405a6406dc5df42057cc5b4ce4674a568c9721a2f4dfd75f5b", size = 32708660, upload-time = "2026-05-21T09:23:56.173Z" },
 ]
 
 [[package]]
@@ -2616,7 +2616,7 @@ requires-dist = [
     { name = "loguru" },
     { name = "nemo-curator" },
     { name = "pyarrow" },
-    { name = "pyspiral", specifier = ">=0.13.9" },
+    { name = "pyspiral", specifier = ">=0.13.10" },
 ]
 
 [package.metadata.requires-dev]
