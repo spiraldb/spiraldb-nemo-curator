@@ -1,7 +1,8 @@
-# spiraldb-nemo-curator
-
 [![CI](https://github.com/spiraldb/spiraldb-nemo-curator/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/spiraldb/spiraldb-nemo-curator/actions/workflows/ci.yml?query=branch%3Adevelop)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
+# SpiralDB source for NVIDIA NeMo Curator
+
 
 SpiralDB-backed I/O endpoints for [NVIDIA NeMo Curator][nemo] video pipelines.
 This library provides two drop-in replacements for Curator's file-based I/O
